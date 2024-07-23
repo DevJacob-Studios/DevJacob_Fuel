@@ -1,0 +1,41 @@
+StorageManager = {
+    CurrentNozzle = nil,
+    CurrentVehicle = nil,
+    LastVehicle = nil,
+    ClosestPump = nil,
+    FuelPumps = {},
+    TrackedVehicles = {},
+    PumpRopeOffsets = {
+        ["prop_gas_pump_1a"] = vector3(0.0, 0.0, 2.35),
+        ["prop_gas_pump_1b"] = vector3(0.0, 0.0, 2.35),
+        ["prop_gas_pump_1c"] = vector3(0.0, 0.0, 2.35),
+        ["prop_gas_pump_1d"] = vector3(0.0, 0.0, 2.35),
+        ["prop_gas_pump_old3"] = vector3(0.0, 0.0, 1.45),
+        ["prop_gas_pump_old2"] = vector3(0.0, 0.0, 1.45),
+        ["prop_vintage_pump"] = vector3(0.0, 0.0, 1.45),
+    },
+    NozzleZOffset = {
+        [0] = 0.65, -- Compacts
+        [1] = 0.65, -- Sedans
+        [2] = 0.85, -- SUVs
+        [3] = 0.6, -- Coupes
+        [4] = 0.55, -- Muscle
+        [5] = 0.6, -- SportsClassics
+        [6] = 0.6, -- Sports
+        [7] = 0.55, -- Super
+        [8] = 0.12, -- Motorcycles
+        [9] = 0.8, -- OffRoad
+        [10] = 0.7, -- Industrial
+        [11] = 0.6, -- Utility
+        [12] = 0.7, -- Vans
+        [13] = 0.0, -- Cycles
+        [14] = 0.0, -- Boats
+        [15] = 0.0, -- Helicopters
+        [16] = 0.6, -- Planes
+        [17] = 0.65, -- Service
+        [18] = 0.65, -- Emergency
+        [19] = 0.75, -- Military
+        [20] = 0.0, -- Commercial
+        [21] = 0.0, -- Trains
+    }
+}
