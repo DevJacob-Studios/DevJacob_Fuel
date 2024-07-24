@@ -276,7 +276,7 @@ function ConsumeVehicleFuel(vehicleHandle)
     if fuelLevel > 0 and GetIsVehicleEngineRunning(vehicleHandle) then
         local key = vehicleHandle
 
-        if StorageManager.TrackedVehicles[key] = nil then
+        if StorageManager.TrackedVehicles[key] == nil then
             StorageManager.TrackedVehicles[key] = TrackedVehicle.new(vehicleHandle)
         end
 
