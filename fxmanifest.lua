@@ -24,7 +24,8 @@ shared_scripts {
 }
 
 client_scripts {
-	"imports.lua",
+	"@DevJacob_CommonLib/lib/client.lua",
+	"@DevJacob_AudioManager/lib/client.lua",
 	"client/managers/cacheManager.lua",
 	"client/managers/storageManager.lua",
 	"client/managers/worldManager.lua",
