@@ -291,7 +291,6 @@ function ConsumeVehicleFuel(vehicleHandle)
         StorageManager.TrackedVehicles[key].lastCoords = GetEntityCoords(vehicleHandle)
 
         local fuelUsed = GetFuelConsumed(vehicleHandle, kmTravelled)
-        print(kmTravelled, fuelUsed)
         StorageManager.TrackedVehicles[key].fuelConsumed = StorageManager.TrackedVehicles[key].fuelConsumed + fuelUsed
         fuelLevel = fuelLevel - fuelUsed
 

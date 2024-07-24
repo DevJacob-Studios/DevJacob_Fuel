@@ -186,7 +186,7 @@ function Nozzle.FeulThread(nozzle)
         if nozzle.isFuelThreadActive == true then return end
         nozzle.isFuelThreadActive = true
     
-        local percentPerSecond = 6.0
+        local percentPerSecond = 3.0
         local intervalDelay = 100
         local percentPerInterval = percentPerSecond / (1000 / intervalDelay)
         
