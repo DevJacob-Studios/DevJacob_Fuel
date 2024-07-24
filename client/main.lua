@@ -1,4 +1,15 @@
-local function OnTickInit()
+AddEventHandler("onResourceStop", function(resourceName)
+    if resourceName ~= CacheManager.CurrentResourceName then
+        return
+    end
+
+    if StorageManager.CurrentNozzle ~= nil then
+        Nozzle.Destroy(StorageManager.CurrentNozzle)
+    end
+end)
+
+-- Init Thread
+Citizen.CreateThread(function()
     -- Parse and cache some config values
     for index, modelName in ipairs(Config["ElectricVehicleModels"]) do
         local modelHash = GetHashForModel(modelName)
@@ -14,9 +25,10 @@ local function OnTickInit()
         local modelHash = GetHashForModel(modelName)
         CacheManager.OverrideEngineDisplacement[modelHash] = value
     end
-end
+end)
 
-local function OnTickHalfSecond()
+-- Cache Thread
+Citizen.CreateThread(function()
     while true do
         local pedPosition = GetEntityCoords(PlayerPedId())
 
@@ -25,9 +37,10 @@ local function OnTickHalfSecond()
         
         Citizen.Wait(500)
     end
-end
+end)
 
-local function OnTickDrawText()
+-- Refuel Thread
+Citizen.CreateThread(function()
     while true do
         local delay = 0
         local isDrawing = false
@@ -152,9 +165,10 @@ local function OnTickDrawText()
 
         Citizen.Wait(delay)
     end
-end
+end)
 
-local function OnTickConsumeFuel()
+-- Consume Fuel Thread
+Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local playerPed = PlayerPedId()
@@ -211,39 +225,12 @@ local function OnTickConsumeFuel()
         end
 
     end
-end
+end)
 
-local function OnCommandDevSetFuelP(soruce, args)
+RegisterCommand("dev_setfuel_p", function(soruce, args)
     SetFuelPercentage(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
-end
+end)
 
-local function OnCommandDevSetFuelL(soruce, args)
+RegisterCommand("dev_setfuel_l", function(soruce, args)
     SetFuelLiters(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
-end
-
-local function OnEventResourceStop(resourceName)
-    if resourceName ~= CacheManager.CurrentResourceName then
-        return
-    end
-
-    if StorageManager.CurrentNozzle ~= nil then
-        Nozzle.Destroy(StorageManager.CurrentNozzle)
-    end
-end
-
-
-
-AddEventHandler("onResourceStop", OnEventResourceStop)
-
-RegisterCommand("dev_setfuel_p", OnCommandDevSetFuelP)
-RegisterCommand("dev_setfuel_l", OnCommandDevSetFuelL)
-
-Citizen.CreateThread(OnTickInit)
-Citizen.CreateThread(OnTickHalfSecond)
-Citizen.CreateThread(OnTickDrawText)
-Citizen.CreateThread(OnTickConsumeFuel)
-
-
-RegisterCommand("dev_sound1", function()
-    AudioManager.PlaySoundOnClient("nui/sounds/fuel_pump_fill.mp3", GetPlayerServerId(PlayerId()))
 end)
