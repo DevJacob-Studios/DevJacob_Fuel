@@ -115,44 +115,47 @@ Citizen.CreateThread(function()
         
         end
 
-        local pedVehicle = GetVehiclePedIsIn(playerPed, true)
-        if pedVehicle ~= nil and DoesEntityExist(pedVehicle) then
-            isDrawing = true
-            DevJacobLib.DrawText2DThisFrame({
-                coords = vector2(0.02, 0.5),
-                text = "Fuel Percent: " .. GetFuelPercentage(pedVehicle) .. "%",
-                scale = 0.45,
-                colour = {
-                    r = 255,
-                    g = 255,
-                    b = 255,
-                    a = 200
-                }
-            })
-            
-            -- DevJacobLib.DrawText2DThisFrame({
-            --     coords = vector2(0.02, 0.525),
-            --     text = "Fuel Liters: " .. GetFuelLiters(pedVehicle) .. "L",
-            --     scale = 0.45,
-            --     colour = {
-            --         r = 255,
-            --         g = 255,
-            --         b = 255,
-            --         a = 200
-            --     }
-            -- })
-            
-            -- DevJacobLib.DrawText2DThisFrame({
-            --     coords = vector2(0.02, 0.55),
-            --     text = "Fuel GTA: " .. GetVehicleFuelLevel(pedVehicle),
-            --     scale = 0.45,
-            --     colour = {
-            --         r = 255,
-            --         g = 255,
-            --         b = 255,
-            --         a = 200
-            --     }
-            -- })
+        -- Debug Fuel Level View
+        if Config["DebugMode"] == true then
+            local pedVehicle = GetVehiclePedIsIn(playerPed, true)
+            if pedVehicle ~= nil and DoesEntityExist(pedVehicle) then
+                isDrawing = true
+                DevJacobLib.DrawText2DThisFrame({
+                    coords = vector2(0.02, 0.5),
+                    text = "Fuel Percent: " .. GetFuelPercentage(pedVehicle) .. "%",
+                    scale = 0.45,
+                    colour = {
+                        r = 255,
+                        g = 255,
+                        b = 255,
+                        a = 200
+                    }
+                })
+                
+                -- DevJacobLib.DrawText2DThisFrame({
+                --     coords = vector2(0.02, 0.525),
+                --     text = "Fuel Liters: " .. GetFuelLiters(pedVehicle) .. "L",
+                --     scale = 0.45,
+                --     colour = {
+                --         r = 255,
+                --         g = 255,
+                --         b = 255,
+                --         a = 200
+                --     }
+                -- })
+                
+                -- DevJacobLib.DrawText2DThisFrame({
+                --     coords = vector2(0.02, 0.55),
+                --     text = "Fuel GTA: " .. GetVehicleFuelLevel(pedVehicle),
+                --     scale = 0.45,
+                --     colour = {
+                --         r = 255,
+                --         g = 255,
+                --         b = 255,
+                --         a = 200
+                --     }
+                -- })
+            end
         end
 
         if isDrawing == false then
@@ -179,9 +182,7 @@ Citizen.CreateThread(function()
 
             if GetVehicleClass(vehicle) ~= 13 and not IsThisModelABicycle(vehModelHash) then
 
-                if IsThisModelAHeli(vehModelHash) or IsThisModelAPlane(vehModelHash) then
-
-                else
+                if not IsThisModelAHeli(vehModelHash) and not IsThisModelAPlane(vehModelHash) then
 
                     -- Leak fuel when tank is damaged
                     local tankHealth = GetVehiclePetrolTankHealth(vehicle)
@@ -227,10 +228,13 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterCommand("dev_setfuel_p", function(soruce, args)
-    SetFuelPercentage(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
-end)
 
-RegisterCommand("dev_setfuel_l", function(soruce, args)
-    SetFuelLiters(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
-end)
+if Config["DebugMode"] == true then
+    RegisterCommand("dev_setfuel_p", function(soruce, args)
+        SetFuelPercentage(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
+    end)
+    
+    RegisterCommand("dev_setfuel_l", function(soruce, args)
+        SetFuelLiters(GetVehiclePedIsIn(PlayerPedId(), true), tonumber(args[1]))
+    end)
+end

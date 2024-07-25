@@ -1,5 +1,7 @@
 Config = {}
 
+Config["DebugMode"] = true
+
 --[[
 	Controls if the script will show the built in hud
 
